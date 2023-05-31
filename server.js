@@ -5,7 +5,7 @@ const fs = require("fs");
 // Path import
 const path = require("path");
 // Data-Base 
-const dB = require("./db/db.json")
+const dataBase = require("./db/db.json")
 
 // Express function that creates new application 
 const app = express();
@@ -18,8 +18,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+// Required router
+const apiRouter = require("./routes/api");
 
-
+// Use/link route to path
+app.use("/api", apiRouter);
 
 // App listener which starts the server
 app.listen(PORT, () =>
