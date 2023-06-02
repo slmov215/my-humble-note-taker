@@ -69,10 +69,10 @@ app.use(express.static("public"));
 
 
 // Required router
-const apiRouter = require("./routes/api");
+const routes = require("./routes");
 
 // Use/link route to path
-app.use("/api", apiRouter);
+app.use("/", routes);
 
 // App listener which starts the server
 app.listen(PORT, () =>

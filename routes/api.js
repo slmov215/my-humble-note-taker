@@ -5,23 +5,13 @@ const fs = require("fs");
 let dataBase = require("../db/db.json")
 const uniqueID = require("../helpers/uuid")
 
-// Path import
-const path = require("path");
-
-// GET route 
-router.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/index.html"));
-});
 router.get("/notes", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/notes.html"));
-});
-
-router.get("/api/notes", (req, res) => {
+  console.log("work please");
   res.json(dataBase);
 });
 
 // POST route, return new note, add to json, and return to client,
-router.post("/api/notes", (req, res) => {
+router.post("/notes", (req, res) => {
   const { title, text } = req.body;
   if (title && text) {
     const newNote = {
@@ -52,5 +42,7 @@ router.post("/api/notes", (req, res) => {
     res.status(500).json('Error in adding note');
   }
 });
+
+// Work on connecting Delete Function
 
 module.exports = router;
