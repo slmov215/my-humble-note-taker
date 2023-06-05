@@ -2,12 +2,12 @@
 const express = require("express");
 const router = express.Router();
 const fs = require("fs");
-let dataBase = require("../db/db.json")
+let notesDataBase = require("../db/db.json")
 const uniqueID = require("../helpers/uuid")
 
 router.get("/notes", (req, res) => {
   console.log("work please");
-  res.json(dataBase);
+  res.json(notesDataBase);
 });
 
 // POST route, return new note, add to json, and return to client,
@@ -20,11 +20,11 @@ router.post("/notes", (req, res) => {
       id: uniqueID(),
     };
 
-    dataBase.push(newNote);
+    notesDataBase.push(newNote);
 
-    let notesString = JSON.stringify(dataBase);
+    let noteString = JSON.stringify(notesDataBase, null, 4);
 
-    fs.writeFile(`./db/db.json`, notesString, (err) =>
+    fs.writeFile(`./db/db.json`, noteString, (err) =>
       err ? console.error(err) : console.log(`Your new note, ${newNote.title}, has been added!`)
     );
 
@@ -39,10 +39,33 @@ router.post("/notes", (req, res) => {
     res.status(201).json(response);
   } else {
     // 500 = server-side error
-    res.status(500).json('Error in adding note');
+    res.status(500).json(`There's seem to be an error in adding your note...`);
   }
 });
 
 // Work on connecting Delete Function
+
+router.delete('/notes/:id', (req, res) => {
+  const { id } = req.params;
+
+  fs.readFile("./db/db.json", "utf8", (error, data) =>
+  error ? console.error(error) : (notesDataBase = JSON.parse(data))
+  );
+
+  const deletedNote = notesDataBase.filter(note => note.id === req.params.id)
+
+  if(deletedNote) {
+      let filteredNotes = notesDataBase.filter(note => note.id != req.params.id)
+      let notesString = JSON.stringify(filteredNotes, null, 4);
+      fs.writeFile(`./db/db.json`, notesString, (err) =>
+      err
+      ? console.error(err)
+      : console.log(`Note deleted!`));
+
+      res.status(200).json(filteredNotes);
+  } else {
+      res.status(500).json('Error deleting note');
+  }
+});
 
 module.exports = router;
