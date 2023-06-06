@@ -31,7 +31,9 @@ npm install
 * Access the saved notes, select a note in the list located on the left. 
 * Click the red trash to delete a saved note. 
 
-![Preview]()
+![Screenshot](./public/assets/my-humble-note-taker.gif)
+
+[Preview](https://drive.google.com/file/d/1hRwuJZ5nzLmlwMaLormmA4u0TPeF48SG/view)
 
 ## License
 
